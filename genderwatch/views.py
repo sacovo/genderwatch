@@ -29,12 +29,16 @@ class AssemblyListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """Returns all assemblies that belong to the requesting user."""
+        if self.request.user.is_superuser:
+            return Assembly.objects.all()
         return Assembly.objects.filter(user=self.request.user)
 
 class AssemblyDetailView(LoginRequiredMixin, DetailView):
     """Seite mit Startknopf, erstellt neue Wortmeldung bei POST request."""
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Assembly.objects.all()
         return Assembly.objects.filter(user=self.request.user)
 
 class AssemblyStatView(LoginRequiredMixin, DetailView):
@@ -42,6 +46,8 @@ class AssemblyStatView(LoginRequiredMixin, DetailView):
     template_name = "genderwatch/assembly_stat.html"
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Assembly.objects.all()
         return Assembly.objects.filter(user=self.request.user)
 
 def init_verdict(request, pk):
@@ -51,7 +57,7 @@ def init_verdict(request, pk):
     Wortmeldung an.
     """
     assembly = get_object_or_404(Assembly, pk=pk)
-    if (not request.user in assembly.user.all()) or assembly.closed:
+    if ((not request.user in assembly.user.all()) or assembly.closed) and (not request.user.is_superuser):
         return HttpResponseForbidden()
     assembly.verdict_set.filter(end=None, user=request.user).update(end=datetime.now())
     verdict = Verdict.objects.create(assembly=assembly, user=request.user)
