@@ -1,0 +1,37 @@
+{% extends 'genderwatch/base.html' %}
+
+{% block content %}
+<div class="row">
+	<div class="col c12">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Ort</th>
+					<th>Datum</th>
+					<th>Kategorie</th>
+					<th>Aktion</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for assembly in object_list %}
+				<tr>
+					<td>{{assembly.title}}</td>
+
+					<td>{{assembly.location}}</td>
+					<td>{{assembly.date|date:"j.b. Y"}}
+					<td>{{assembly.get_category_display}}</td>
+					{% if not assembly.closed %}
+					<td><a href="{{assembly.get_absolute_url}}">Protokollieren</a></td>
+					{% else %}
+					<td><a href="{% url 'assembly-stat' assembly.pk %}">Statistik</a></td>
+					{% endif %}
+					{% endfor %}
+				</tr>
+			</tbody>
+
+		</table>
+	</div>
+</div>
+{% endblock %}

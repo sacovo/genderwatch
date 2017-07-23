@@ -1,0 +1,320 @@
+/* ==========================================================================
+   UNI-FORM STYLE by DRAGAN BABIC
+   --------------------------------------------------------------------------
+   Copyright (c) 2013, Dragan Babic
+   --------------------------------------------------------------------------
+   Permission is hereby granted, free of charge, to any person obtaining a 
+   copy of this software and associated documentation files (the "Software"),
+   to deal in the Software without restriction, including without limitation 
+   the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+   and/or sell copies of the Software, and to permit persons to whom the 
+   Software is furnished to do so, subject to the following conditions: 
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software. 
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
+   --------------------------------------------------------------------------
+   NOTE ABOUT STYLING FORMS 
+   --------------------------------------------------------------------------
+   When styling your form make sure to copy the selector from uni-form.css
+   into this file and override it with your properties and values.
+   ========================================================================== */
+
+.uni-form {
+  margin: 1.5em 0;
+  padding-top: 1px;
+}
+
+/* ==========================================================================
+   Form titles
+   ========================================================================== */
+
+.uni-form .uni-form-title {
+  margin: 1.5em 0;
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+/* ==========================================================================
+   Holders
+   ========================================================================== */
+
+.uni-form .ctrl-holder {
+  padding: 1em 1em 1.5em 1em;
+  border: 1px solid #efefef;
+  border-width: 1px 0 0 0;
+}
+
+.uni-form .inline-labels .ctrl-holder {
+  padding: 1.5em 1em;
+}
+
+.uni-form fieldset .ctrl-holder:last-child {
+  border-bottom-width: 1px;
+}
+
+.uni-form .ctrl-holder.focused {
+  background: #fffcdf
+}
+
+.uni-form .button-holder {
+  background: #efefef;
+  margin-top: 1.5em;
+  padding: 1.5em;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Design for input fields
+   ========================================================================== */
+
+.uni-form .input-text,
+.uni-form .input-textarea {
+  padding: 5px;
+  border: 1px solid #aaa;
+  background: #fff;
+  border-radius: 2px;
+  -webkit-box-shadow: 1px 1px 3px rgba(0,0,0,.15) inset;
+  box-shadow: 1px 1px 3px rgba(0,0,0,.15) inset;
+}
+
+.uni-form .input-text:focus,
+.uni-form .input-textarea:focus {
+  border-color: #343434;
+  outline: none;
+}
+
+.uni-form .input-textarea {
+  height: 12em;
+}
+
+.uni-form .input-select {}
+
+.uni-form .input-file {}
+
+/* Disabled inputs */
+
+.uni-form .input-disabled {
+  background-color: #f4f4f4;
+  border-color: #ccc;
+  color: #999;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+  
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.uni-form .action-primary {
+  padding: 1em 2em;
+  line-height: 1;
+  background: #254a86;
+  border: 1px solid #163362;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 4px;
+  text-shadow: -1px -1px 0 rgba(0,0,0,.25);
+}
+
+.uni-form .action-primary:focus,
+.uni-form .action-primary:hover {
+  background: #2b58a1;
+}
+
+.uni-form .action-primary:active {
+  background: #1d3c6d;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.5) inset;
+  box-shadow: 0 1px 3px rgba(0,0,0,.5) inset;
+}
+
+.uni-form .action-secondary,
+.uni-form button.action-secondary,
+.uni-form input[type=submit].action-secondary {
+  float: right;
+  background: transparent;
+  border: none;
+  margin: 1.25em 0 0 0;
+  padding: 0;
+  color: #999;
+}
+
+/* Disabled actions */
+
+.uni-form .action-disabled,
+.uni-form .action-disabled:link,
+.uni-form .action-disabled:visited,
+.uni-form .action-disabled:focus,
+.uni-form .action-disabled:hover,
+.uni-form .action-disabled:active {
+  background: #ccc;
+  border: 1px solid #aaa;
+  color: #999;
+  text-shadow: 1px 1px 0 rgba(255,255,255,.25);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* ==========================================================================
+   Required fields asterisks
+   ========================================================================== */
+
+.uni-form .inline-labels label em,
+.uni-form .inline-labels .label em {
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+/* ==========================================================================
+   Labels within grouped controls
+   ========================================================================== */
+
+.uni-form .multi label {
+  margin-top: .3em; /* Compensate for the smaller font size */
+  font-size: .85em;
+}
+
+/* ==========================================================================
+   Form hints
+   ========================================================================== */
+
+.uni-form .form-hint {
+  padding-top: .3em; /* Compensate for the smaller font size */
+  font-size: .85em;
+  color: #999;
+}
+
+.uni-form .ctrl-holder.focused .form-hint {
+  color: #343434;
+}
+
+/* ==========================================================================
+   Messages
+   ========================================================================== */
+
+/* Error message at the top of the form ------------------------------------- */
+
+.uni-form #errorMsg {
+  background: #ffdfdf;
+  border: 1px solid #f3afb5;
+  margin: 1.5em 0;
+  padding: 0 1.5em;
+  border-radius: 4px;
+}
+
+.uni-form #errorMsg h3 {
+  margin: 1em 0 0 0;
+}
+
+.uni-form #errorMsg ol {
+  margin: 1.5em 0;
+  padding: 0;
+}
+
+  .uni-form #errorMsg li {
+    list-style: none;
+    margin: 0 0 4px 0;
+    padding: 7px;
+    background: #f6bec1;
+    position: relative;
+    font-size: .85em;
+    border-radius: 3px;
+  }
+
+/* Holder errors ------------------------------------------------------------ */
+
+.uni-form .ctrl-holder.error,
+.uni-form .ctrl-holder.focused.error {
+  background-color: #ffdfdf;
+  border-color: #f3afb5;
+}
+
+    .uni-form .ctrl-holder.error .input-text.error,
+    .uni-form .ctrl-holder.error .input-file.error,
+    .uni-form .ctrl-holder.error .input-select.error,
+    .uni-form .ctrl-holder.error .input-textarea.error {
+      color: #af4c4c;
+      border-color: #c55f68;
+    }
+
+/* Success messages at the top of the form ---------------------------------- */
+
+.uni-form #okMsg {
+  background: #e1f4cd;
+  border: 1px solid #b6cda4;
+  margin: 0 0 1.5em 0;
+  padding: 1.5em;
+  text-align: center;
+  border-radius: 4px;
+}
+
+    .uni-form #okMsg p {
+      margin: 0
+    }
+
+/* Holder valid input ------------------------------------------------------- */
+
+.uni-form .ctrl-holder.valid {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABpElEQVRIiWNgGAWDAfTvV+2vX6W0/v//UAN0OUZqWbLsoV7BodXv+mF8fUeexkzjGw0wPhM1LPn/v0LhyLp39chiF/d/qUf2GTM1LPqp/GT99y//NJDF2DiZHniZHa+E8Sn20bKHegUfXv1xQBefmGUeiMynyKL//0MNkOMFBvQdeRoZGVdfQBajKOi+yHzd/vvnfwlkMW5+5gvVPncj0dWS7aPpZzUavn78i5GMe1LMErGpJ8ui//9DDS7u/1KPLo4tyGAAI+j+/w81+Kn8bXndaiXGxU3PsWoiJchgAMVH//+HGmRPOL7/w6s/DusmvJq/649RAroGUoMMq0XZE47v//eXQQDGR7eMnCDDahE2ALPs///7AiVzTs1HlxcQYzmAXNTgAihlHSzokH2FbCB6xmRiZvgwtSDGkJGx4wEhi1B8xMi4+sLUAktHJmaGD+gKseV+myChRmIswbCIkGXIQECM5UCU/KUJxFiC1SJiLGNiZvjQHhuBN5URZREhy0gJMoIW4bKM1CAjCfz/H2pQv0ppfesW5fn//9/HSJGjgKYAAELOyUHrhNdJAAAAAElFTkSuQmCC);
+  background-position: 99% 1em;
+  background-repeat: no-repeat;
+  background-size: 18px auto;
+}
+
+.uni-form .inline-labels .ctrl-holder.valid {
+  background-position: 31% 1.75em;
+}
+  
+  .ctrl-holder.valid .input-text,
+  .ctrl-holder.valid .input-select,
+  .ctrl-holder.valid .input-textarea {
+    border-color: #88a24f;
+    color: #88a24f;
+  }
+
+/* ==========================================================================
+   Columns
+   ========================================================================== */
+
+/* Remove borders from .ctrl-holder */
+
+.uni-form-row > .ctrl-holder {
+  border: none;
+}
+
+/* Add borders to rows */
+
+.uni-form-row {
+  border: 1px solid #efefef;
+  border-width: 1px 0 0 0;
+}
+
+.uni-form-row:last-child {
+  border-bottom-width: 1px;
+}
+
+/* ==========================================================================
+   480 breakpoint
+   ========================================================================== */
+
+@media screen and (max-width: 480px) {
+
+  .uni-form .ctrl-holder,
+  .uni-form .inline-labels .ctrl-holder {
+    padding-top: 1em;
+    padding-bottom: 1.5em;
+  }
+  
+  .uni-form .ctrl-holder.valid,
+  .uni-form .inline-labels .ctrl-holder.valid {
+    background-position: 97% 1em;
+  }
+
+}

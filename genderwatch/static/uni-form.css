@@ -1,0 +1,425 @@
+/* ==========================================================================
+   Copyright (c) 2013, Dragan Babic
+   --------------------------------------------------------------------------
+   Permission is hereby granted, free of charge, to any person obtaining a
+   copy of this software and associated documentation files (the "Software"),
+   to deal in the Software without restriction, including without limitation
+   the rights to use, copy, modify, merge, publish, distribute, sublicense,
+   and/or sell copies of the Software, and to permit persons to whom the
+   Software is furnished to do so, subject to the following conditions:
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
+   --------------------------------------------------------------------------
+   Generals
+   ========================================================================== */
+
+.uni-form {
+  margin: 0;
+  padding: 0;
+}
+
+.uni-form * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* Reset stuff and prevent inheritance */
+
+.uni-form fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* This are the main units that contain form elements */
+
+.uni-form .ctrl-holder,
+.uni-form .button-holder {}
+
+/* Clear all floats */
+
+ .uni-form:after,
+ .uni-form .button-holder:after,
+ .uni-form .ctrl-holder:after,
+ .uni-form-row:after {
+   content: ".";
+   display: block;
+   height: 0;
+   line-height: 0;
+   font-size: 0;
+   clear: both;
+   min-height: 0;
+   visibility: hidden;
+ }
+
+.uni-form label,
+.uni-form button {
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Default layout
+   --------------------------------------------------------------------------
+   Styles for form controls where labels are above the input elements
+   ========================================================================== */
+
+/* Target only the "main" labels */
+
+.uni-form .ctrl-holder > label,
+.uni-form .ctrl-holder > .label {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/* Required fields asterisk styling */
+
+.uni-form label em,
+.uni-form .label em {
+  float: left;
+  width: .75em;
+  margin: 0 0 0 -.75em;
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+/* Float the input elements */
+
+.uni-form .ctrl,
+.uni-form .input-text,
+.uni-form .input-file,
+.uni-form .input-select,
+.uni-form .input-textarea {
+  float: left;
+  width: 65%; /* 2% for spacing */
+  margin: 0;
+}
+
+.uni-form .ctrl {
+  padding-right: 3%;
+}
+
+/* Make some spacing between the label and the input/list */
+
+.uni-form label + .input-text,
+.uni-form label + .input-file,
+.uni-form label + .input-select,
+.uni-form label + .input-textarea {
+  margin-top: .5em;
+}
+
+/* Postition the hints */
+
+.uni-form .form-hint {
+  float: right;
+  width: 33%;
+  margin: 0;
+}
+
+/* Grouped controls (one below the other by default) */
+
+.uni-form .multi {
+  float: left;
+  width: 67%;
+  margin: 0;
+  padding: 0 3% 0 0;
+}
+
+.uni-form .multi + .form-hint {
+  margin-top: .5em;
+}
+
+  .uni-form .multi > li {
+    margin: .5em 0;
+    list-style: none;
+  }
+
+/* Alternate layout for grouped controls (stacked inline) */
+
+.uni-form .multi-inline > li {
+  float: left;
+  margin: .5em 0 0 0;
+}
+
+.uni-form .columns-2 > li {
+  width: 50%;
+}
+
+.uni-form .columns-2 > li + li {
+  padding-left: 2%;
+}
+
+.uni-form .columns-3 > li {
+  width: 33.3%;
+}
+
+.uni-form .columns-3 > li + li,
+.uni-form .columns-3 > li + li + li {
+  padding-left: 2%;
+}
+
+.uni-form .multi .input-text,
+.uni-form .multi .input-select,
+.uni-form .multi select {
+  display: inline-block;
+  float: none;
+  width: 100%;
+  margin-top: 0;
+}
+
+/* ==========================================================================
+   Alternate layout
+   --------------------------------------------------------------------------
+   Styles for form controls where labels are in line with the input elements
+   --------------------------------------------------------------------------
+   Set the class of the parent (preferably to a fieldset) to .inline-labels
+   ========================================================================== */
+
+.uni-form .inline-labels .ctrl-holder > label,
+.uni-form .inline-labels .ctrl-holder > .label {
+  float: left;
+  position: relative;
+  width: 33%;
+  padding-right: 3%;
+}
+
+/* Float the input elements */
+
+.uni-form .ctrl,
+.uni-form .inline-labels .input-text,
+.uni-form .inline-labels .input-file,
+.uni-form .inline-labels .input-select,
+.uni-form .inline-labels .input-textarea {
+  float: left;
+  width: 67%;
+  margin: 0;
+}
+
+/* Postition the hints */
+
+.uni-form .inline-labels .form-hint {
+  clear: both;
+  float: none;
+  width: auto;
+  margin-left: 33%;
+  padding-top: .5em; /* Must use padding because of the clearing */
+}
+
+/* Grouped controls (one below the other by default) */
+
+.uni-form .inline-labels .multi {
+  float: left;
+  width: 67%;
+  margin: 0;
+  padding: 0;
+}
+
+  .uni-form .inline-labels .multi > li {
+    margin: 0;
+  }
+
+  .uni-form .inline-labels .multi > li + li {
+    margin-top: .5em;
+  }
+
+   .uni-form .inline-labels .multi label {
+     float: none;
+     display: block;
+     width: 100%;
+   }
+
+    .uni-form .inline-labels .multi .input-text,
+    .uni-form .inline-labels .multi .input-select,
+    .uni-form .inline-labels .multi .input-file,
+    .uni-form .inline-labels .multi .input-textarea {
+      float: none;
+      display: inline-block;
+      width: 100%;
+    }
+
+/* Alternate layout for grouped controls (stacked inline) */
+
+.uni-form .inline-labels .multi-inline > li + li {
+  margin-top: 0;
+}
+
+/* ==========================================================================
+   Additional stuff
+   ========================================================================== */
+
+/* When you don't want to use a label for grouped fields */
+
+.uni-form .inline-labels .no-label .multi {
+  margin-left: 33%;
+}
+
+/* Classes for control of the widths of the fields */
+
+.uni-form .small {
+  width: 30% !important
+}
+
+.uni-form .medium {
+  width: 45% !important
+}
+
+.uni-form .large {
+  float: none;
+  display: block;
+  width: 100% !important;
+}
+
+.uni-form .large + .form-hint,
+.uni-form .inline-labels .large + .form-hint {
+  float: none;
+  width: auto;
+  margin-left: 0;
+  padding-top: .3em;
+}
+
+.uni-form .auto {
+  width: auto !important;
+  height: auto !important;
+  display: inline-block !important;
+  float: none !important;
+}
+
+/* Make spacing in between two inputs */
+
+.uni-form .small + input,
+.uni-form .medium + input,
+.uni-form .auto + input,
+.uni-form .small + select,
+.uni-form .medium + select,
+.uni-form .auto + select {
+  margin-right: 4px !important;
+}
+
+/* ==========================================================================
+   Read-Only output
+   ========================================================================== */
+
+/* Default layout */
+
+.uni-form .read-only-label {
+  display: block;
+  margin: 0;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.uni-form .read-only {
+  margin: .5em 0 0 0;
+}
+
+  .uni-form .read-only .choice-label {
+    color: #777;
+    text-transform: uppercase;
+    font-size: .8em;
+    letter-spacing: .15em;
+  }
+
+/* Alternate layout */
+
+.uni-form .inline-labels .read-only-label {
+  float: left;
+  position: relative;
+  width: 33%;
+  margin: 0;
+  padding-right: 3%;
+}
+
+.uni-form .inline-labels .read-only {
+  float: right;
+  width: 67%;
+  margin: 0;
+}
+
+.uni-form .inline-labels .read-only + .read-only {
+  margin-top: .5em;
+}
+
+/* ==========================================================================
+   Columns
+   ========================================================================== */
+
+.uni-form-row {}
+
+  .uni-form-row > .ctrl-holder {
+    float: left;
+  }
+
+  .columns-2 > .ctrl-holder {
+    width: 50%;
+  }
+
+  .columns-3 > .ctrl-holder {
+    width: 33.3%;
+  }
+
+/* ==========================================================================
+   480 breakpoint
+   ========================================================================== */
+
+@media screen and (max-width: 480px) {
+
+  /* Default layout selectors */
+  .uni-form .ctrl-holder > label,
+  .uni-form .ctrl-holder > .label,
+  .uni-form .input-text,
+  .uni-form .input-select,
+  .uni-form .input-textarea,
+  .uni-form .input-file,
+  .uni-form .ctrl,
+  .uni-form .multi,
+  .uni-form .multi-inline > li,
+  .uni-form .form-hint,
+  /* Alternate layout selectors */
+  .uni-form .inline-labels .ctrl-holder > label,
+  .uni-form .inline-labels .ctrl-holder > .label,
+  .uni-form .inline-labels .input-text,
+  .uni-form .inline-labels .input-select,
+  .uni-form .inline-labels .input-textarea,
+  .uni-form .inline-labels .input-file,
+  .uni-form .inline-labels .ctrl,
+  .uni-form .multi,
+  .uni-form .inline-labels .multi-inline > li,
+  .uni-form .inline-labels .form-hint,
+  .uni-form .inline-labels .no-label .multi {
+    float: none;
+    width: 100%;
+  }
+
+  .uni-form .inline-labels label + .input-text,
+  .uni-form .inline-labels label + .input-file,
+  .uni-form .inline-labels label + .input-select,
+  .uni-form .inline-labels label + .input-textarea {
+    margin-top: .5em;
+  }
+
+  .uni-form .inline-labels .ctrl-holder > label,
+  .uni-form .inline-labels .ctrl-holder > .label,
+  .uni-form .multi,
+  .uni-form .multi-inline > li,
+  .uni-form .columns-2 > li + li,
+  .uni-form .columns-3 > li + li,
+  .uni-form .columns-3 > li + li + li {
+    padding: 0;
+  }
+
+  .uni-form .form-hint,
+  .uni-form .inline-labels .form-hint,
+  .uni-form .inline-labels .no-label .multi{
+    margin-left: 0;
+  }
+
+}

@@ -1,0 +1,69 @@
+{% extends 'genderwatch/base.html' %}
+
+
+{% block header %}
+<h1>{{assembly.title}} <small>({{assembly.date|date:"d.M. Y"}})</small></h1>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col c12">
+		<button onclick="window.location.href='{% url 'init-verdict' pk=object.pk %}'" class="btn btn-b smooth">Neue Wortmeldung</button>
+		<button onclick="window.location.href='{% url 'assembly-stat' pk=object.pk %}'" class="btn btn-b smooth">Statistik</button>
+
+	</div>
+	<div class="col c12">
+		<h2>Bisherige Wortmeldungen</h2> 
+		(Die selbe Wortmeldung kann mehrmals auftauchen)
+		<table class="table">
+			<thead>
+				<th>#</th>
+				<th>Gender</th>
+				<th>Kategorie</th>
+				<th>Start</th>
+				<th>Ende</th>
+				<th>Protkolliert von</th>
+			</thead>
+			<tbody>
+				{% for verdict in assembly.verdict_set.all %}
+				<tr>
+					<td>{{forloop.counter}}</td>
+					<td>{{verdict.get_gender_display}}</td>
+					<td>{{verdict.get_category_display}}</td>
+					<td>{{verdict.start|date:"H:i"}}</td>
+					<td>{{verdict.end|date:"H:i"}}</td>
+					<td>{{verdict.user}}</td>
+				</tr>
+
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="col c12">
+		<h2>Kurze Zusammenfassung</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Gender</th>
+					<th>Redezeit</th>
+					<th>Anzahl Wortmeldungen</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for gender in assembly.short_summary %}
+				<tr>
+					<td>{{gender.0.1}}</td>
+					<td class="right">{{gender.1}}</td>
+					<td class="right">{{gender.2}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<br>
+	</div>
+	<div class="col c12">
+		<button onclick="window.location.href='{% url 'assembly-list' %}'" class="btn btn-a smooth">Zurück zur Übersicht</button>
+	</div>
+</div>
+{% endblock %}

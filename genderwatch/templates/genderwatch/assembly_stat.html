@@ -1,0 +1,43 @@
+{% extends 'genderwatch/base.html' %}
+
+{% block header %}
+<h1>{{assembly.title}}</h1>
+{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+<div class="row">
+<div class="col c6">
+{{assembly.count_graph|safe}}
+</div>
+<div class="col c6">
+{{assembly.time_graph|safe}}
+</div>
+<div class="col c12">
+{{assembly.category_count_chart|safe}}
+</div>
+<div class="col c12">
+{{assembly.category_time_chart|safe}}
+</div>
+<div class="col c6">
+{{assembly.position_count_chart|safe}}
+</div>
+<div class="col c6">
+{{assembly.position_time_chart|safe}}
+</div>
+<div class="col c12">
+{{assembly.gender_graph|safe}}
+</div>
+<div class="col c12">
+{{assembly.interruptions_graph|safe}}
+</div>
+
+	<div class="col c12">
+		<button onclick="window.location.href='{% url 'assembly-list' %}'" class="btn btn-a smooth">Zurück zur Übersicht</button>
+	</div>
+</div>
+
+{% endblock %}

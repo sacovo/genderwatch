@@ -1,0 +1,21 @@
+{% extends 'genderwatch/base.html' %}
+{% load crispy_forms_tags %}
+{% block header %}
+<h1>{{assembly.title}} <small>({{assembly.date|date:"d.M. Y"}})</small></h1>
+<h2>Event erfassen</h2>
+{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col c12">
+		<form action="" method="POST" class="uni-form">
+			{% csrf_token %}
+			{{form|crispy}}
+
+			<div class="button-holder">
+				<button type="submit" class="btn btn-b smooth">Absenden</button>
+			</div>
+
+		</form>
+	</div>
+</div>
+{% endblock %}
