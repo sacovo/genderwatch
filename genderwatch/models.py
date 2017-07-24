@@ -33,7 +33,6 @@ class Assembly(models.Model):
     location = models.CharField(max_length=100, verbose_name="Ort")
     date = models.DateField()
     user = models.ManyToManyField(User, verbose_name="Prtokollierende")
-    group = models.ForeignKey(Group, verbose_name="Gruppe")
     closed = models.BooleanField(default=False)
 
     def get_absolute_url(self):
