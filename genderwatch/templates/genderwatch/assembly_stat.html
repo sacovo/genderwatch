@@ -1,4 +1,7 @@
 {% extends 'genderwatch/base.html' %}
+{% block title %}
+{{assembly.title}}
+{% endblock title %}
 
 {% block header %}
 <h1>{{assembly.title}}</h1>
@@ -33,6 +36,9 @@
 </div>
 <div class="col c12">
 {{assembly.interruptions_graph|safe}}
+</div>
+<div class="col c12">
+{{assembly.sexism_graph|safe}}
 </div>
 
 	<div class="col c12">

@@ -1,5 +1,8 @@
 {% extends 'genderwatch/base.html' %}
 {% load crispy_forms_tags %}
+{% block title %}
+Event erfassen
+{% endblock title %}
 {% block header %}
 <h1>{{assembly.title}} <small>({{assembly.date|date:"d.M. Y"}})</small></h1>
 <h2>Event erfassen</h2>

@@ -12,7 +12,8 @@ GENDERS = (
 POSITIONS = (
     ('GL', "Geschäftsleitung"),
     ('BA', "Basis"),
-    ('GA', "Gäste"),
+    ('DG', "Delegierte"),
+    ('GA', "Gäst*innen"),
     ('PO', "Podium"),
     ('WS', "Workshopleitung"),
 )
@@ -26,6 +27,7 @@ class Assembly(models.Model):
         ('SEKO', "Sektionskonferenz"),
         ('JV', "Jahresversammlung"),
         ('BV', "Bildungsveranstaltung"),
+        ('PT', "Parteitag"),
     )
 
     category = models.CharField(max_length=10, choices=CATEGORIES, verbose_name="Kategorie")
@@ -81,7 +83,8 @@ class Assembly(models.Model):
             ))
 
         layout = go.Layout(
-            title="Redezeit",
+            title=str(int(sum((v.duration() for v in self.verdict_set.all()), datetime.timedelta()).\
+                    total_seconds()/60))+ " Min. Redezeit",
             barmode='stack'
         )
         fig = go.Figure(data=data, layout=layout)
@@ -105,8 +108,8 @@ class Assembly(models.Model):
             ))
 
         layout = go.Layout(
-            title="Anzahl Wortmeldungen",
-            barmode='stack'
+            barmode='stack',
+            title=str(self.verdict_set.count()) + " Wortmeldungen",
         )
         fig = go.Figure(data=data, layout=layout)
         print(data)
@@ -144,7 +147,7 @@ class Assembly(models.Model):
         return py.plot(fig, include_plotlyjs=False, output_type="div")
 
     def time_category(self, gender, category):
-        durations = (v.end-v.start for v in self.verdict_set.filter(category=category, gender=gender))
+        durations = (v.duration() for v in self.verdict_set.filter(category=category, gender=gender))
         duration = sum(durations, datetime.timedelta())
         return duration.total_seconds()/60
 
@@ -197,7 +200,7 @@ class Assembly(models.Model):
         data.append(trace)
 
         layout = go.Layout(
-            title="Anzahl Wortmeldungen",
+            title=str(self.verdict_set.count()) + " Wortmeldungen",
         )
         fig = go.Figure(data=data, layout=layout)
         return py.plot(fig, include_plotlyjs=False, output_type="div")
@@ -220,7 +223,8 @@ class Assembly(models.Model):
             values=values,
         )
         layout = go.Layout(
-            title="Redezeit",
+            title=str(int(sum((v.duration() for v in self.verdict_set.all()), datetime.timedelta()).\
+                    total_seconds()/60))+ " Min. Redezeit",
         )
         fig = go.Figure(data=[trace], layout=layout)
         return py.plot(fig, include_plotlyjs=False, output_type="div")
@@ -244,20 +248,20 @@ class Assembly(models.Model):
         ]
 
         for i, gender in enumerate(Verdict.GENDERS):
+            gp = Event.objects.filter(gender=gender[0],\
+                                                 verdict__assembly=self, category='G+').count()
+            gm =             Event.objects.filter(gender=gender[0],\
+                                                 verdict__assembly=self, category='G-').count()
+
             fig['data'].append(
                 go.Pie(
                     labels=['Richtig', 'Falsch'],
                     marker={'colors': ['rgb(0,255,0)',
                                        'rgb(255,0,0)']
                            },
-                    values=[Event.objects.filter(gender=gender[0],\
-                                                 verdict__assembly=self, category='G+').count(),
-                            Event.objects.filter(gender=gender[0],\
-                                                 verdict__assembly=self, category='G-').count(),
-                           ],
+                    values=[gp,gm],
                     name=gender[1],
                     domain = domains[i],
-                    text = ['test']
                 ),
             )
             fig['layout']['annotations'].append(
@@ -266,7 +270,7 @@ class Assembly(models.Model):
                         "size": 14
                     },
                     "showarrow": False,
-                    "text": gender[1],
+                    "text": gender[1]+ ' ({}:{})'.format(gp,gm),
                     "x": domains[i]['x'][0],
                     "y": 1
                 },
@@ -304,6 +308,24 @@ class Assembly(models.Model):
         fig = go.Figure(data=data, layout=layout)
         return py.plot(fig, include_plotlyjs=False, output_type="div")
                 
+    def sexism_graph(self):
+        import plotly.offline as py
+        import plotly.graph_objs as go
+        data = [
+            go.Bar(
+                x=[g[1] for g in GENDERS],
+                y=[Event.objects.filter(
+                    verdict__assembly=self,
+                    category='SX',
+                    gender=g[0]).count() for g in GENDERS],
+            )
+        ]
+        
+        layout = go.Layout(
+            title="Sexismus",
+        )
+        fig = go.Figure(data=data, layout=layout)
+        return py.plot(fig, include_plotlyjs=False, output_type="div")
 
 
 
@@ -359,6 +381,7 @@ class Event(models.Model):
         ('G+', 'Richtig gegendert'),
         ('G-', 'Falsch gegendert'),
         ('UB', 'Unterbrechung'),
+        ('SX', 'Sexismus'),
         ('EX', 'Ende')
     )
     GENDERS = GENDERS

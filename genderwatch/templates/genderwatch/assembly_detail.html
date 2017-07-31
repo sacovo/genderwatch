@@ -1,5 +1,7 @@
 {% extends 'genderwatch/base.html' %}
 
+{%block title %}{{assembly.title}}
+{% endblock title %}
 
 {% block header %}
 <h1>{{assembly.title}} <small>({{assembly.date|date:"d.M. Y"}})</small></h1>
@@ -8,7 +10,9 @@
 {% block content %}
 <div class="row">
 	<div class="col c12">
+    {% if not object.closed %}
 		<button onclick="window.location.href='{% url 'init-verdict' pk=object.pk %}'" class="btn btn-b smooth">Neue Wortmeldung</button>
+    {% endif %}
 		<button onclick="window.location.href='{% url 'assembly-stat' pk=object.pk %}'" class="btn btn-b smooth">Statistik</button>
 
 	</div>
