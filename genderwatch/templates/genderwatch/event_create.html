@@ -7,18 +7,76 @@ Event erfassen
 <h1>{{assembly.title}} <small>({{assembly.date|date:"d.M. Y"}})</small></h1>
 <h2>Event erfassen</h2>
 {% endblock %}
+{% block extra_css %}
+.button-holder {
+	padding: 1em;
+}
+.btn {
+	width: 100%;
+}
+{% endblock %}
 {% block content %}
 <div class="row">
-	<div class="col c12">
-		<form action="" method="POST" class="uni-form">
+		{% for form in forms.glang %}
+	<div class="col c3">
+		<form action="" method="POST" class="">
 			{% csrf_token %}
-			{{form|crispy}}
+			{{form}}
 
 			<div class="button-holder">
-				<button type="submit" class="btn btn-b smooth">Absenden</button>
+				<button type="submit" class="btn btn-b smooth">
+					{{form.button_text}}
+				</button>
 			</div>
 
 		</form>
 	</div>
+		{% endfor %}
+	<div class="col c3">
+		<form action="" method="POST" class="">
+			{% csrf_token %}
+			{{forms.sexism}}
+
+			<div class="button-holder">
+				<button type="submit" class="btn btn-b smooth">
+					{{forms.sexism.button_text}}
+				</button>
+			</div>
+
+		</form>
+	</div>
+	<div class="col c3">
+		<form action="" method="POST" class="">
+			{% csrf_token %}
+			{{forms.end}}
+
+			<div class="button-holder">
+				<button type="submit" class="btn btn-c smooth">
+					{{forms.end.button_text}}
+				</button>
+			</div>
+
+		</form>
+	</div>
+</div>
+<div class="row">
+		<h2>Unterbrechungen</h2>
+		{% for position in forms.interrupt %}
+		{% for form in position %}
+	<div class="col c4">
+		<form action="" method="POST" class="">
+			{% csrf_token %}
+			{{form}}
+
+			<div class="button-holder">
+				<button type="submit" class="btn btn-b smooth">
+					{{form.button_text}}
+				</button>
+			</div>
+
+		</form>
+	</div>
+		{% endfor %}
+		{% endfor %}
 </div>
 {% endblock %}

@@ -21,6 +21,18 @@ class EventForm(ModelForm):
     """
     Form for creating an event
     """
+    def __init__(self, *args, **kwargs):
+        button_text = kwargs.get('button_text', '')
+        if button_text:
+            del kwargs['button_text']
+        super(EventForm, self).__init__(*args, **kwargs)
+        self.button_text = button_text
+        
     class Meta:
         model = Event
         fields = ['gender', 'position', 'category']
+        widgets = {
+            'gender': forms.HiddenInput(),
+            'position': forms.HiddenInput(),
+            'category': forms.HiddenInput(),
+        }

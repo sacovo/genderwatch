@@ -37,11 +37,9 @@ ul.messages {
 		</nav>
 		<div class="container">
 			{% if messages %}
-			<ul class="messages">
 				{% for message in messages %}
-				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+				<div class="msg">{{ message }}</div>
 				{% endfor %}
-			</ul>
 			{% endif %}
 
 			{% block header %}

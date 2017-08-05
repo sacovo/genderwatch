@@ -98,8 +98,32 @@ def event_create(request):
     auf die GenderwatchInitView Seite weitergeleitet.
     """
     verdict = get_object_or_404(Verdict, pk=request.session['verdict'])
-    initial = {'gender': verdict.gender, 'position': verdict.position}
+    positions = verdict.assembly.positions.split(',')
+    def form_data(category, gender, position):
+        return {
+            'gender':gender,
+            'category': category,
+            'position':position,
+        }
+    initial = form_data('G+', verdict.gender, verdict.position)
+    forms = {
+        'glang': [EventForm(form_data('G+', verdict.gender, verdict.position),
+                            button_text='Richtig gegendert'),
+                  EventForm(form_data('G-', verdict.gender, verdict.position),
+                           button_text='Falsch gegendert')],
+        'interrupt': 
+            [
+            [EventForm(form_data('UB', g[0], p), button_text='{} {}'.format(g[1],p)) for g in Verdict.GENDERS]
+                for p in positions
+            ]
+        ,
+        'sexism': EventForm(form_data('SX', verdict.gender, verdict.position), 
+                           button_text='Sexismus'),
+        'end': EventForm(form_data('EX', verdict.gender, verdict.position),
+                        button_text="Ende")
+    }
     form = EventForm(initial=initial)
+
     if request.POST:
         form = EventForm(request.POST, initial=initial)
         if form.is_valid():
@@ -119,6 +143,7 @@ def event_create(request):
     return render(request, 'genderwatch/event_create.html',
                   context={
                       'form': form,
+                      'forms': forms,
                       'verdict': verdict,
                       'assembly': verdict.assembly
                   }

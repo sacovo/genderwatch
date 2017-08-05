@@ -18,6 +18,7 @@ POSITIONS = (
     ('WS', "Workshopleitung"),
 )
 
+
 class Assembly(models.Model):
     """
     Versammlungen, Workshops usw.
@@ -36,6 +37,7 @@ class Assembly(models.Model):
     date = models.DateField()
     user = models.ManyToManyField(User, verbose_name="Prtokollierende")
     closed = models.BooleanField(default=False)
+    positions = models.CharField(max_length=100, default='GL,DG', verbose_name="Positionen")
 
     def get_absolute_url(self):
         """
@@ -397,3 +399,14 @@ class Event(models.Model):
         """Meta"""
         verbose_name = "Ereignis"
         ordering = ['time']
+
+class Participant(models.Model):
+    gender = models.CharField(max_length=2, choices=GENDERS, verbose_name="Gender")
+    count = models.PositiveSmallIntegerField(verbose_name="Anzahl")
+    assembly = models.ForeignKey(Assembly)
+
+    class Meta:
+        """
+        Meta
+        """
+        ordering = ['count']
