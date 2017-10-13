@@ -38,6 +38,7 @@ class Assembly(models.Model):
     user = models.ManyToManyField(User, verbose_name="Prtokollierende")
     closed = models.BooleanField(default=False)
     positions = models.CharField(max_length=100, default='GL,DG', verbose_name="Positionen")
+    topics = models.TextField(default="OR, Organisatorisch\nPO, Politisch", verbose_name="Themen")
 
     def get_absolute_url(self):
         """
@@ -342,6 +343,11 @@ class Verdict(models.Model):
     Einzelne Wortmeldungen
     """
     CATEGORIES = (
+         ('FE', "Feminismus"),
+         ('DI', "Digitalisierung"),
+         ('VE', "Venezuela"),
+         ('99', "99%-Initiative"),
+        ('MI', 'Migration'),
         ('OR', 'Organisatorisch'),
         ('WI', 'Wirtschaft'),
         ('FI', 'Finanzen'),
@@ -349,7 +355,6 @@ class Verdict(models.Model):
         ('CA', 'Care'),
         ('AR', 'Arbeit'),
         ('ST', 'Staat'),
-        ('MI', 'Migration'),
     )
     POSITIONS = POSITIONS
     GENDERS = GENDERS

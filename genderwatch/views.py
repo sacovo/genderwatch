@@ -72,9 +72,9 @@ def update_verdict(request):
     auf die Seite für die Unterbrüche weitergeleitet.
     """
     verdict = get_object_or_404(Verdict, pk=request.session['verdict'])
-    form = VerdictForm()
+    form = VerdictForm(assembly=verdict.assembly)
     if request.POST:
-        form = VerdictForm(request.POST, instance=verdict)
+        form = VerdictForm(request.POST, instance=verdict, assembly=verdict.assembly)
         if form.is_valid():
             verdict = form.save()
             messages.add_message(request, messages.INFO, 'Wortmeldung eröffnet.')

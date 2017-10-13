@@ -13,7 +13,7 @@ Neue Wortmeldung
 	<div class="col c12">
 		<form action="" method="POST" class="uni-form">
 			{% csrf_token %}
-			{{form|crispy}}
+			{{form}}
 
 			<div class="button-holder">
 				<button type="submit" class="btn btn-b smooth">Absenden</button>
