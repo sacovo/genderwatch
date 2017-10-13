@@ -40,6 +40,9 @@ class Assembly(models.Model):
     positions = models.CharField(max_length=100, default='GL,DG', verbose_name="Positionen")
     topics = models.TextField(default="OR, Organisatorisch\nPO, Politisch", verbose_name="Themen")
 
+    def get_topics(self):
+        return [t.split(',') for t in self.topics.split('\n')]
+
     def get_absolute_url(self):
         """
         Return url to this object
@@ -127,8 +130,8 @@ class Assembly(models.Model):
         data = []
 
         for gender in GENDERS:
-            x = list((v[1] for v in Verdict.CATEGORIES))
-            y = list((self.count_category(gender[0], c[0]) for c in Verdict.CATEGORIES))
+            x = list((v[1] for v in self.get_topics()))
+            y = list((self.count_category(gender[0], c[0]) for c in self.get_topics()))
             trace = go.Bar(
                 x=x,
                 y=y,
@@ -161,8 +164,8 @@ class Assembly(models.Model):
         data = []
 
         for gender in GENDERS:
-            x = list((v[1] for v in Verdict.CATEGORIES))
-            y = list((self.time_category(gender[0], c[0]) for c in Verdict.CATEGORIES))
+            x = list((v[1] for v in self.get_topics()))
+            y = list((self.time_category(gender[0], c[0]) for c in self.get_topics()))
             trace = go.Bar(
                 x=x,
                 y=y,
@@ -363,11 +366,17 @@ class Verdict(models.Model):
     gender = models.CharField(max_length=2, choices=GENDERS, verbose_name="Gender", blank=True)
     position = models.CharField(max_length=2, choices=POSITIONS,
                                 verbose_name="Position", blank=True)
-    category = models.CharField(max_length=2, choices=CATEGORIES,
+    category = models.CharField(max_length=2,
                                 verbose_name="Kategorie", blank=True)
     assembly = models.ForeignKey(Assembly, verbose_name="Versammlung")
     end = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(User, verbose_name="protokolliert von")
+
+    def get_category_name(self):
+        for topic in self.assembly.get_topics():
+            if topic[0] == self.category:
+                return topic[1]
+        return  'Keine Kategorie'
 
     def duration(self):
         if self.end:
