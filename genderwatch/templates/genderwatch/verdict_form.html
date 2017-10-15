@@ -6,6 +6,7 @@ Wortmeldung bearbeiten
 
 {% block header %}
 <h2>Wortmeldung bearbeiten</h2>
+<a href="{% url 'verdict-delete' object.pk %}" class="btn btn-c smooth btn-sm">Wortmeldung löschen</a>
 {% endblock %}
 {% block content %}
 <div class="row">

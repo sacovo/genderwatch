@@ -6,11 +6,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from django.http import HttpResponseForbidden
+from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import FormView, CreateView, UpdateView
+from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from genderwatch.models import Assembly, Verdict
@@ -79,6 +80,17 @@ class AssemblyUpdateView(PermissionRequiredMixin, UpdateView):
         users = [(u.pk, u) for u in User.objects.filter(groups__in=self.request.user.groups.all())]
         form.fields['user'].choices = users
         return form
+
+class AssemblyDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = 'genderwatch.delete_assembly'
+    model = Assembly
+    success_url = reverse_lazy('assembly-list')
+
+class VerdictDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = 'genderwatch.delete_verdict'
+    model = Verdict
+    success_url = '/assembly/{assembly_id}/'
+
 
 class AssemblyDetailView(LoginRequiredMixin, DetailView):
     """Seite mit Startknopf, erstellt neue Wortmeldung bei POST request."""

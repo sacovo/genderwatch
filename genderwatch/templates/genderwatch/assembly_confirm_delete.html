@@ -1,0 +1,19 @@
+{% extends 'genderwatch/base.html' %}
+{% block title %}
+Genderwatch
+{% endblock title %}
+{% block header %}
+<h1>{{object.title}} löschen</h1>
+{% endblock header %}
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+	<p>Bist du sicher, dass du diese Versammlung löschen willst?</p>
+	<ul>
+		<li>{{object.title}}</li>
+	</ul>
+    <input type="submit" value="Bestätigen" class="btn btn-c smooth" />
+</form>
+
+{% endblock %}
+

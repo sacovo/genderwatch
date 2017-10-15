@@ -7,10 +7,12 @@ urlpatterns = [
     url(r'^$', views.AssemblyListView.as_view(), name="assembly-list"),
     url(r'^assembly/(?P<pk>[0-9]+)/$', views.AssemblyDetailView.as_view(), name="assembly-detail"),
     url(r'^assembly/(?P<pk>[0-9]+)/edit/$', views.AssemblyUpdateView.as_view(), name="assembly-update"),
+    url(r'^assembly/(?P<pk>[0-9]+)/delete/$', views.AssemblyDeleteView.as_view(), name="assembly-delete"),
     url(r'^assembly/create/$', views.AssemblyCreateView.as_view(), name="assembly-create"),
     url(r'^assembly/(?P<pk>[0-9]+)/stat/$', views.AssemblyStatView.as_view(), name="assembly-stat"),
     url(r'^init-verdict/(?P<pk>[0-9]+)/$', views.init_verdict, name="init-verdict"),
     url(r'^verdict/(?P<pk>[0-9]+)/edit/$', views.VerdictUpdateView.as_view(), name="verdict-update"),
+    url(r'^verdict/(?P<pk>[0-9]+)/delete/$', views.VerdictDeleteView.as_view(), name="verdict-delete"),
     url(r'^verdict/$', views.update_verdict, name="update-verdict"),
     url(r'^event-create/$', views.event_create, name="event-create"),
     url(r'^accounts/login/$', auth_views.LoginView.as_view(
