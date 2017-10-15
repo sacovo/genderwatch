@@ -11,7 +11,7 @@ class VerdictForm(ModelForm):
     """
     gender = forms.ChoiceField(choices=Verdict.GENDERS, widget=forms.RadioSelect)
     position = forms.ChoiceField(choices=Verdict.POSITIONS, widget=forms.RadioSelect)
-    category = forms.ChoiceField(choices=Verdict.CATEGORIES, widget=forms.RadioSelect)
+    category = forms.ChoiceField(choices=Verdict.CATEGORIES)
 
     def __init__(self, *args, **kwargs):
         assembly = kwargs.get('assembly', None)

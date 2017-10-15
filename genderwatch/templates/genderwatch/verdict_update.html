@@ -4,22 +4,87 @@
 Neue Wortmeldung
 {% endblock title %}
 
+{% block extra_css %}
+
+input[type=radio] {
+-webkit-appearance: none;
+-moz-appearance: none;
+-ms-appearance: none;
+-o-appearance: none;
+appearance: none;
+position: relative;
+padding:0px;
+top: 13.33333px;
+right: 0;
+bottom: 0;
+left: 0;
+height: 40px;
+width: 40px;
+transition: all 0.15s ease-out 0s;
+background: #cbd1d8;
+border: none;
+color: #fff;
+cursor: pointer;
+display: inline-block;
+margin-right: 0.5rem;
+outline: none;
+position: relative;
+z-index: 1000;
+}
+input[type=radio]:hover {
+background: #9faab7;
+}
+input[type=radio]:checked {
+background: #40e0d0;
+}
+input[type=radio]:checked::before {
+height: 40px;
+width: 40px;
+position: absolute;
+content: '✓';
+display: inline-block;
+font-size: 26.66667px;
+text-align: center;
+line-height: 40px;
+}
+input[type=radio]:checked::after {
+background: #40e0d0;
+content: '';
+display: block;
+position: relative;
+z-index: 100;
+}
+input[type=radio] {
+border-radius: 50%;
+}
+input[type=radio]{
+border-radius: 50%;
+}
+
+ul {
+list-style: none;
+padding-left: 10px;
+margin-top: 0px;
+padding-bottom: 17px;
+}
+
+{% endblock extra_css %}
+
 {% block header %}
-<h1>{{assembly.title}} <small>({{assembly.date|date:"d.M. Y"}})</small></h1>
-<h2>Neue Wortmeldung</h2>
+<h3 style="margin-bottom:0px">Neue Wortmeldung</h3>
 {% endblock %}
 {% block content %}
-<div class="row">
-	<div class="col c12">
-		<form action="" method="POST" class="uni-form">
-			{% csrf_token %}
-			{{form}}
+<div class="row" style="margin-top:0px">
+  <div class="col c12" style="margin-top:0px">
+    <form action="" method="POST" class="uni-form" style="margin-top:0px">
+      {% csrf_token %}
+      {{form.as_p}}
 
-			<div class="button-holder">
-				<button type="submit" class="btn btn-b smooth">Absenden</button>
-			</div>
+      <div class="button-holder">
+        <button type="submit" class="btn btn-b smooth">Absenden</button>
+      </div>
 
-		</form>
-	</div>
+    </form>
+  </div>
 </div>
 {% endblock %}
