@@ -18,7 +18,7 @@ class VerdictForm(ModelForm):
         del kwargs['assembly']
         super(VerdictForm, self).__init__(*args, **kwargs)
         positions = assembly.positions.split(',')
-        categories = [t.split(',') for t in assembly.topics.split('\n')]
+        categories = assembly.get_topics()
         choices = [(p[0], p[1]) for p in Verdict.POSITIONS if p[0] in positions]
         self.fields['position'].choices = choices
         self.fields['category'].choices = categories
