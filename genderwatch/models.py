@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.utils.text import slugify
 from django.contrib.auth.models import User, Group
 
 # Create your models here.
@@ -11,6 +12,7 @@ GENDERS = (
 
 POSITIONS = (
     ('GL', "Geschäftsleitung"),
+    ('VS', "Vorstand"),
     ('BA', "Basis"),
     ('DG', "Delegierte"),
     ('GA', "Gäst*innen"),
@@ -38,10 +40,10 @@ class Assembly(models.Model):
     user = models.ManyToManyField(User, verbose_name="Prtokollierende")
     closed = models.BooleanField(default=False)
     positions = models.CharField(max_length=100, default='GL,DG', verbose_name="Positionen")
-    topics = models.TextField(default="OR, Organisatorisch\nPO, Politisch", verbose_name="Themen")
+    topics = models.TextField(default="Begrüssung\nTraktandum 1", verbose_name="Themen")
 
     def get_topics(self):
-        return [t.split(',') for t in self.topics.split('\n')]
+        return [(slugify(t), t) for t in self.topics.strip().split('\n')]
 
     def get_absolute_url(self):
         """
@@ -346,10 +348,10 @@ class Verdict(models.Model):
     Einzelne Wortmeldungen
     """
     CATEGORIES = (
-         ('FE', "Feminismus"),
-         ('DI', "Digitalisierung"),
-         ('VE', "Venezuela"),
-         ('99', "99%-Initiative"),
+        ('FE', "Feminismus"),
+        ('DI', "Digitalisierung"),
+        ('VE', "Venezuela"),
+        ('99', "99%-Initiative"),
         ('MI', 'Migration'),
         ('OR', 'Organisatorisch'),
         ('WI', 'Wirtschaft'),
@@ -366,7 +368,7 @@ class Verdict(models.Model):
     gender = models.CharField(max_length=2, choices=GENDERS, verbose_name="Gender", blank=True)
     position = models.CharField(max_length=2, choices=POSITIONS,
                                 verbose_name="Position", blank=True)
-    category = models.CharField(max_length=2,
+    category = models.CharField(max_length=140,
                                 verbose_name="Kategorie", blank=True)
     assembly = models.ForeignKey(Assembly, verbose_name="Versammlung")
     end = models.DateTimeField(blank=True, null=True)
@@ -382,6 +384,9 @@ class Verdict(models.Model):
         if self.end:
             return self.end - self.start
         return datetime.timedelta(0)
+
+    def get_absolute_url(self):
+        return self.assembly.get_absolute_url()
 
     class Meta:
         """Meta"""
@@ -408,6 +413,7 @@ class Event(models.Model):
     position = models.CharField(max_length=2, choices=POSITIONS, verbose_name="Position")
     time = models.DateTimeField(auto_now_add=True)
     verdict = models.ForeignKey(Verdict, verbose_name="Wortmeldung")
+
 
     class Meta:
         """Meta"""

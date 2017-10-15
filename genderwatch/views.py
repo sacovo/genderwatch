@@ -1,13 +1,16 @@
 """Views"""
 from datetime import datetime
+from django import forms
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from genderwatch.models import Assembly, Verdict
@@ -33,6 +36,50 @@ class AssemblyListView(LoginRequiredMixin, ListView):
             return Assembly.objects.all()
         return Assembly.objects.filter(user=self.request.user)
 
+class AssemblyCreateView(PermissionRequiredMixin, CreateView):
+    """Seite mit Startknopf, erstellt neue Wortmeldung bei POST request."""
+    permission_required = 'genderwatch.can_add_assembly'
+    model = Assembly
+    fields = [
+       'category', 'title', 'location', 'date', 'user', 'positions', 'topics' 
+    ]
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Assembly.objects.all()
+        if self.request.user.has_perm('genderwatch.can_add_assembly'):
+            return Assembly.objects.filter(user=self.request.user)
+        return None
+
+    def get_form(self, form_class=None):
+        form = super(AssemblyCreateView, self).get_form(form_class=form_class)
+        if self.request.user.is_superuser:
+            return form
+        users = [(u.pk, u) for u in User.objects.filter(groups__in=self.request.user.groups.all())]
+        form.fields['user'].choices = users
+        return form
+
+class AssemblyUpdateView(PermissionRequiredMixin, UpdateView):
+    """Seite mit Startknopf, erstellt neue Wortmeldung bei POST request."""
+    permission_required = 'genderwatch.can_change_assembly'
+    model = Assembly
+    fields = [
+       'category', 'title', 'location', 'date', 'user', 'positions', 'topics' 
+    ]
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Assembly.objects.all()
+        if self.request.user.has_perm('genderwatch.can_change_assembly'):
+            return Assembly.objects.filter(user=self.request.user)
+        return None
+
+    def get_form(self, form_class=None):
+        form = super(AssemblyUpdateView, self).get_form(form_class=form_class)
+        if self.request.user.is_superuser:
+            return form
+        users = [(u.pk, u) for u in User.objects.filter(groups__in=self.request.user.groups.all())]
+        form.fields['user'].choices = users
+        return form
+
 class AssemblyDetailView(LoginRequiredMixin, DetailView):
     """Seite mit Startknopf, erstellt neue Wortmeldung bei POST request."""
 
@@ -49,6 +96,25 @@ class AssemblyStatView(LoginRequiredMixin, DetailView):
         if self.request.user.is_superuser:
             return Assembly.objects.all()
         return Assembly.objects.filter(user=self.request.user)
+
+class VerdictUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'genderwatch.can_change_verdict'
+    model = Verdict
+    fields = [
+        'gender', 'position', 'category', 'end'
+    ]
+
+    def get_form(self, form_class=None):
+        form = super(VerdictUpdateView, self).get_form(form_class=form_class)
+        form.fields['category'].widget = forms.Select()
+        positions = self.object.assembly.positions.split(',')
+        categories = self.object.assembly.get_topics()
+        choices = [(p[0], p[1]) for p in Verdict.POSITIONS if p[0] in positions]
+        form.fields['position'].choices = choices
+        form.fields['category'].choices = categories
+        form.fields['category'].widget.choices = categories
+        return form
+    
 
 def init_verdict(request, pk):
     """

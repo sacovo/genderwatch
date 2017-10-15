@@ -14,15 +14,19 @@
 		<button onclick="window.location.href='{% url 'init-verdict' pk=object.pk %}'" class="btn btn-b smooth">Neue Wortmeldung</button>
     {% endif %}
 		<button onclick="window.location.href='{% url 'assembly-stat' pk=object.pk %}'" class="btn btn-b smooth">Statistik</button>
+	{% if perms.genderwatch.can_change_assembly %}
+		<button onclick="window.location.href='{% url 'assembly-update' pk=object.pk %}'" class="btn btn-b smooth">Bearbeiten</button>
+
+	{% endif %}
 
 	</div>
 	<div class="col c12">
 		<h2>Bisherige Wortmeldungen</h2> 
-		(Die selbe Wortmeldung kann mehrmals auftauchen)
 		<table class="table">
 			<thead>
 				<th>#</th>
 				<th>Gender</th>
+				<th>Position</th>
 				<th>Kategorie</th>
 				<th>Start</th>
 				<th>Ende</th>
@@ -31,8 +35,15 @@
 			<tbody>
 				{% for verdict in assembly.verdict_set.all %}
 				<tr>
-					<td>{{forloop.counter}}</td>
+					<td>{% if perms.genderwatch.can_change_verdict %}
+						<a href="{% url 'verdict-update' verdict.pk %}">
+							{{forloop.counter}}</a>
+						{% else %}
+						{{forloop.counter}}
+						{% endif %}
+					</td>
 					<td>{{verdict.get_gender_display}}</td>
+					<td>{{verdict.get_position_display}}</td>
 					<td>{{verdict.get_category_name}}</td>
 					<td>{{verdict.start|date:"H:i"}}</td>
 					<td>{{verdict.end|date:"H:i"}}</td>
