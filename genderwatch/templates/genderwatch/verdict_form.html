@@ -1,0 +1,29 @@
+{% extends 'genderwatch/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Wortmeldung bearbeiten
+{% endblock title %}
+
+{% block header %}
+<h2>Wortmeldung bearbeiten</h2>
+{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col c6">
+		<form action="" method="POST" class="uni-form">
+			{% csrf_token %}
+			{{form}}
+
+			<div class="button-holder">
+				<button type="submit" class="btn btn-b smooth">Absenden</button>
+			</div>
+
+		</form>
+	</div>
+	<div class="col c6">
+		<h2>Hilfe</h2>
+		<p>{{object.category}}
+		</p>
+	</div>
+</div>
+{% endblock %}

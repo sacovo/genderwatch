@@ -1,0 +1,54 @@
+{% extends 'genderwatch/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+{% if object %}
+"{{object.title}}" bearbeiten
+{% else %}
+Neue Versammlung
+{% endif %}
+{% endblock title %}
+
+{% block header %}
+{% if object %}
+<h2>"{{object.title}}" bearbeiten</h2>
+{% else %}
+<h2>Neue Versammlung</h2>
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col c6">
+		<form action="" method="POST" class="uni-form">
+			{% csrf_token %}
+			{{form}}
+
+			<div class="button-holder">
+				<button type="submit" class="btn btn-b smooth">Absenden</button>
+			</div>
+
+		</form>
+	</div>
+	<div class="col c6">
+		<h2>Hilfe</h2>
+		<p>
+		Hier kannst du eine neue Versammlung erstellen oder eine bestehende bearbeiten.
+		Dazu musst du den Namen, den Ort und das Datum der Versammlung eintragen.
+		</p>
+		<p>
+		Unter Protokollierende kannst du die Accounts auswählen, die die Veranstaltung protokollieren sollen. Vergiss nicht, dich selber auch auszuwählen, ansonsten hast du keinen Zugriff mehr auf die Versammlung! Unter Positionen kannst du auswählen, wer alles an der Veranstaltung sprechen wird. Zur Verfügung stehen:
+		<ul>
+			<li>GL, Geschäftsleitung</li>
+			<li>VS, Vorstand</li>
+			<li>BA, Basis</li>
+			<li>DG, Delegierte</li>
+			<li>GA, Gäst*innen</li>
+			<li>PO, Podium</li>
+			<li>WS, Workshopleitung</li>
+		</ul>
+		<p>
+		Unter Themen kannst du die Themen eintragen, die an der Versammlung behandelt werden.
+		Trage dabei jedes Thema in eine neue Zeile ein.
+		</p>
+	</div>
+</div>
+{% endblock %}
