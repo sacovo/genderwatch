@@ -4,7 +4,7 @@ Genderwatch
 {% endblock title %}
 {% block header %}
 <h1>Genderwatch</h1>
-{% if perms.genderwatch.can_add_assembly %}
+{% if perms.genderwatch.add_assembly %}
 <h2>
 <a href="{% url 'assembly-create' %}">Veranstaltung erstellen</a>
 </h2>
@@ -33,7 +33,7 @@ Genderwatch
 					<td>{{assembly.location}}</td>
 					<td>{{assembly.date|date:"j.b. Y"}}
 					<td>{{assembly.get_category_display}}</td>
-					<td><a href="{{assembly.get_absolute_url}}">Überblick</a>{% if perms.genderwatch.can_change_assembly %} | <a href="{% url 'assembly-update' assembly.pk %}">Bearbeiten</a>{% endif%}</td>
+					<td><a href="{{assembly.get_absolute_url}}">Überblick</a>{% if perms.genderwatch.change_assembly %} | <a href="{% url 'assembly-update' assembly.pk %}">Bearbeiten</a>{% endif%}</td>
 					{% endfor %}
 				</tr>
 			</tbody>

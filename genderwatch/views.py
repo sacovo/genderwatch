@@ -38,7 +38,7 @@ class AssemblyListView(LoginRequiredMixin, ListView):
 
 class AssemblyCreateView(PermissionRequiredMixin, CreateView):
     """Seite mit Startknopf, erstellt neue Wortmeldung bei POST request."""
-    permission_required = 'genderwatch.can_add_assembly'
+    permission_required = 'genderwatch.add_assembly'
     model = Assembly
     fields = [
        'category', 'title', 'location', 'date', 'user', 'positions', 'topics' 
@@ -46,7 +46,7 @@ class AssemblyCreateView(PermissionRequiredMixin, CreateView):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Assembly.objects.all()
-        if self.request.user.has_perm('genderwatch.can_add_assembly'):
+        if self.request.user.has_perm('genderwatch.add_assembly'):
             return Assembly.objects.filter(user=self.request.user)
         return None
 
@@ -60,7 +60,7 @@ class AssemblyCreateView(PermissionRequiredMixin, CreateView):
 
 class AssemblyUpdateView(PermissionRequiredMixin, UpdateView):
     """Seite mit Startknopf, erstellt neue Wortmeldung bei POST request."""
-    permission_required = 'genderwatch.can_change_assembly'
+    permission_required = 'genderwatch.change_assembly'
     model = Assembly
     fields = [
        'category', 'title', 'location', 'date', 'user', 'positions', 'topics' 
@@ -68,7 +68,7 @@ class AssemblyUpdateView(PermissionRequiredMixin, UpdateView):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Assembly.objects.all()
-        if self.request.user.has_perm('genderwatch.can_change_assembly'):
+        if self.request.user.has_perm('genderwatch.change_assembly'):
             return Assembly.objects.filter(user=self.request.user)
         return None
 
@@ -98,7 +98,7 @@ class AssemblyStatView(LoginRequiredMixin, DetailView):
         return Assembly.objects.filter(user=self.request.user)
 
 class VerdictUpdateView(PermissionRequiredMixin, UpdateView):
-    permission_required = 'genderwatch.can_change_verdict'
+    permission_required = 'genderwatch.change_verdict'
     model = Verdict
     fields = [
         'gender', 'position', 'category', 'end'
