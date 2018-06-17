@@ -12,13 +12,29 @@ GENDERS = (
 
 POSITIONS = (
     ('GL', "Geschäftsleitung"),
+    ('PR', "Präsidium"),
     ('VS', "Vorstand"),
     ('BA', "Basis"),
     ('DG', "Delegierte"),
     ('GA', "Gäst*innen"),
     ('PO', "Podium"),
-    ('WS', "Workshopleitung"),
+    ('NR', "Nationalrat"),
+    ('BR', "Bundesrat"),
+    ('SR', "Ständerat"),
+    ('KR', "Kantonsrat"),
+    ('GR', "Grossrat"),
+    ('LR', "Landrat"),
+    ('RR', "Regierungsrat"),
+    ('STR', "Stadtrat"),
+    ('GER', "Gemeinderat"),
+    ('ER', "Einwohnerrat"),
 )
+
+def get_position_display(short):
+    for position in POSITIONS:
+        if short == position[0]:
+            return position[1]
+    return '--'
 
 
 class Assembly(models.Model):
@@ -30,7 +46,15 @@ class Assembly(models.Model):
         ('SEKO', "Sektionskonferenz"),
         ('JV', "Jahresversammlung"),
         ('BV', "Bildungsveranstaltung"),
-        ('PT', "Parteitag"),
+        ('VV', "Vollversammlung"),
+        ('MV', "Mitgliederversammlung"),
+        ('GRS', "Grossratssitzung"),
+        ('KRS', "Kantonsratssitzung"),
+        ('NRS', "Nationalratssitzung"),
+        ('SRS', "Ständeratssitzung"),
+        ('STRS', "Stadtratssitzung"),
+        ('GERS', "Gemeinderatssitzung"),
+        ('ERS', "Einwohnerratssitzung"),
     )
 
     category = models.CharField(max_length=10, choices=CATEGORIES, verbose_name="Kategorie")
@@ -79,21 +103,23 @@ class Assembly(models.Model):
 
         x = list(g[1] for g in GENDERS)
         data = []
-        for position in POSITIONS:
-
-            y = list(sum((v.duration() for v in self.verdict_set.filter(gender=g[0], position=position[0])),\
-                         datetime.timedelta()).total_seconds() for g in GENDERS)
+        for position in self.verdict_set.values_list('position', flat=True):
+            y = list(sum((v.duration() for v in self.verdict_set.filter(gender=g[0], position=position)),\
+                         datetime.timedelta()).total_seconds()/60 for g in GENDERS)
 
             data.append(go.Bar(
                 x=x,
                 y=y,
-                name=position[1]
+                name=get_position_display(position)
             ))
 
         layout = go.Layout(
             title=str(int(sum((v.duration() for v in self.verdict_set.all()), datetime.timedelta()).\
                     total_seconds()/60))+ " Min. Redezeit",
-            barmode='stack'
+            barmode='stack',
+            yaxis = dict(
+                title="Minuten"
+            ),
         )
         fig = go.Figure(data=data, layout=layout)
         print(data)
@@ -105,14 +131,13 @@ class Assembly(models.Model):
 
         x = list(g[1] for g in GENDERS)
         data = []
-        for position in POSITIONS:
-
-            y = list(self.verdict_set.filter(gender=g[0], position=position[0]).count() for g in GENDERS)
+        for position in self.verdict_set.values_list('position', flat=True):
+            y = list(self.verdict_set.filter(gender=g[0], position=position).count() for g in GENDERS)
 
             data.append(go.Bar(
                 x=x,
                 y=y,
-                name=position[1]
+                name=get_position_display(position)
             ))
 
         layout = go.Layout(
@@ -221,7 +246,7 @@ class Assembly(models.Model):
         for position in self.verdict_set.values_list('position', flat=True):
             for gender in GENDERS:
                 value = sum((v.duration() for v in self.verdict_set.filter(gender=gender[0],
-                                                                           position=position)), datetime.timedelta()).total_seconds()
+                                                                           position=position)), datetime.timedelta()).total_seconds()/60
                 if value > 0:
                     values.append(value)
                     labels.append('{} {}'.format(position, gender[1]))
