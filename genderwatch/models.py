@@ -103,7 +103,7 @@ class Assembly(models.Model):
 
         x = list(g[1] for g in GENDERS)
         data = []
-        for position in self.verdict_set.values_list('position', flat=True):
+        for position in set(self.verdict_set.values_list('position', flat=True)):
             y = list(sum((v.duration() for v in self.verdict_set.filter(gender=g[0], position=position)),\
                          datetime.timedelta()).total_seconds()/60 for g in GENDERS)
 
@@ -131,7 +131,7 @@ class Assembly(models.Model):
 
         x = list(g[1] for g in GENDERS)
         data = []
-        for position in self.verdict_set.values_list('position', flat=True):
+        for position in set(self.verdict_set.values_list('position', flat=True)):
             y = list(self.verdict_set.filter(gender=g[0], position=position).count() for g in GENDERS)
 
             data.append(go.Bar(
