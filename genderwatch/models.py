@@ -28,6 +28,8 @@ POSITIONS = (
     ('STR', "Stadtrat"),
     ('GER', "Gemeinderat"),
     ('ER', "Einwohnerrat"),
+    ('HA', "Hauptamtlich"),
+    ('EA', "Ehrenamtlich"),
 )
 
 def get_position_display(short):
@@ -42,6 +44,7 @@ class Assembly(models.Model):
     Versammlungen, Workshops usw.
     """
     CATEGORIES = (
+        ('SI', "Sitzung"),
         ('DV', 'Delegiertenversammlung'),
         ('SEKO', "Sektionskonferenz"),
         ('JV', "Jahresversammlung"),
