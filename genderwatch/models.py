@@ -398,9 +398,9 @@ class Verdict(models.Model):
                                 verbose_name="Position", blank=True)
     category = models.CharField(max_length=140,
                                 verbose_name="Kategorie", blank=True)
-    assembly = models.ForeignKey(Assembly, verbose_name="Versammlung")
+    assembly = models.ForeignKey(Assembly, models.CASCADE, verbose_name="Versammlung")
     end = models.DateTimeField(blank=True, null=True)
-    user = models.ForeignKey(User, verbose_name="protokolliert von")
+    user = models.ForeignKey(User, models.CASCADE, verbose_name="protokolliert von")
 
     def get_category_name(self):
         for topic in self.assembly.get_topics():
@@ -440,7 +440,7 @@ class Event(models.Model):
     gender = models.CharField(max_length=2, choices=GENDERS, verbose_name="Gender")
     position = models.CharField(max_length=2, choices=POSITIONS, verbose_name="Position")
     time = models.DateTimeField(auto_now_add=True)
-    verdict = models.ForeignKey(Verdict, verbose_name="Wortmeldung")
+    verdict = models.ForeignKey(Verdict, models.CASCADE, verbose_name="Wortmeldung")
 
 
     class Meta:
@@ -451,7 +451,7 @@ class Event(models.Model):
 class Participant(models.Model):
     gender = models.CharField(max_length=2, choices=GENDERS, verbose_name="Gender")
     count = models.PositiveSmallIntegerField(verbose_name="Anzahl")
-    assembly = models.ForeignKey(Assembly)
+    assembly = models.ForeignKey(Assembly, models.CASCADE)
 
     class Meta:
         """

@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+  web:
+    image: sacovo/link-shortener
+    command: gunicorn -w 2 mysite.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/app/web/storage/static/
+      - media_volume:/home/app/web/storage/media/
+    expose:
+      - 8000
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod
+  nginx:
+    image: sacovo/nginx-pagespeed
+    volumes:
+      - static_volume:/home/app/web/storage/static/
+      - media_volume:/home/app/web/storage/media/
+      - ./nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+      - nginx_cache:/var/ngx_cache
+    expose:
+      - 80
+    ports:
+      - 9080:80
+    restart: always
+    networks:
+      - web
+      - default
+    depends_on:
+      - web
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  nginx_cache:
+
+networks:
+  web:
+    external: true
