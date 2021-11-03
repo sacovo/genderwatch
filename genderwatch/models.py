@@ -5,9 +5,9 @@ from django.contrib.auth.models import User, Group
 
 # Create your models here.
 GENDERS = (
-    ('m', 'Männer*'),
-    ('f', 'Frauen*'),
-    ('a', 'Andere'),
+    ('m', 'Männer'),
+    ('f', 'Frauen'),
+    ('a', 'Divers'),
 )
 
 POSITIONS = (
