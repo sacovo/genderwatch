@@ -7,7 +7,8 @@ from django.contrib.auth.models import User, Group
 GENDERS = (
     ('m', 'Männer'),
     ('f', 'Frauen'),
-    ('a', 'Divers'),
+    ('a', 'Non-Binär'),
+    ('n', 'Agender'),
 )
 
 POSITIONS = (
